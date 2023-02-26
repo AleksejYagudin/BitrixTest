@@ -21,6 +21,7 @@ spl_autoload_register(function ($sClassName) {
         require_once($sClassFile);
     }
 });
+require_once(__DIR__.'/override.php');
 foreach( [
              __DIR__.'/kernel.php',
              __DIR__.'/events.php',
