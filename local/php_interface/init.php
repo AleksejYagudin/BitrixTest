@@ -1,34 +1,33 @@
 <?php
-spl_autoload_register(function($sClassName)
-{
-    $sClassFile = __DIR__.'/classes';
+/**
+ * - /local/classes/{Path|raw}/{*|raw}.php
+ * - /local/classes/{Path|ucfirst,lowercase}/{*|ucfirst,lowercase}.php
+ */
+spl_autoload_register(function ($sClassName) {
 
-    if ( file_exists($sClassFile.'/'.str_replace('\\', '/', $sClassName).'.php') )
-    {
-        require_once($sClassFile.'/'.str_replace('\\', '/', $sClassName).'.php');
+    $sClassFile = __DIR__ . '/classes';
+
+    if (file_exists($sClassFile . '/' . str_replace('\\', '/', $sClassName) . '.php')) {
+        require_once($sClassFile . '/' . str_replace('\\', '/', $sClassName) . '.php');
         return;
     }
 
     $arClass = explode('\\', strtolower($sClassName));
-    foreach($arClass as $sPath )
-    {
-        $sClassFile .= '/'.ucfirst($sPath);
+    foreach ($arClass as $sPath) {
+        $sClassFile .= '/' . ucfirst($sPath);
     }
-
     $sClassFile .= '.php';
-    if (file_exists($sClassFile))
-    {
+    if (file_exists($sClassFile)) {
         require_once($sClassFile);
     }
 });
-
 foreach( [
              __DIR__.'/kernel.php',
              __DIR__.'/events.php',
              __DIR__.'/vendor/autoload.php',
          ]
          as $filePath ) {
-    if (file_exists($filePath))
+    if ( file_exists($filePath) )
     {
         require_once($filePath);
     }
