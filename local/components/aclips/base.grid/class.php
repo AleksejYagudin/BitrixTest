@@ -5,11 +5,59 @@ namespace Aclips\Components;
 use Bitrix\Main\Grid;
 use Bitrix\Main\UI;
 
-class BaseGridComponent extends \CBitrixComponent
+use Bitrix\Main\Engine\Contract\Controllerable;
+use Bitrix\Main\Error;
+use Bitrix\Main\Errorable;
+use Bitrix\Main\ErrorCollection;
+use Bitrix\Main\ErrorableImplementation;
+
+
+class BaseGridComponent extends \CBitrixComponent implements Controllerable, Errorable
 {
     const GRID_ID = 'BASE_GRID';
 
     const PAGE_SIZE = 15;
+
+    use ErrorableImplementation;
+
+    public function configureActions()
+    {
+        // TODO: Implement configureActions() method.
+    }
+
+    public function deleteAction(int $userId): bool
+    {
+        // Инициализация коллекции ошибок
+        $this->errorCollection = new ErrorCollection();
+
+        $result = \CUser::Delete($userId);
+
+        if(!$result) {
+            $this->errorCollection->setError(new Error('Произошла ошибка при удалении пользователя'));
+            return false;
+        }
+
+        return true;
+    }
+
+    public function createAction(array $params): array
+    {
+        // Инициализация коллекции ошибок
+        $this->errorCollection = new ErrorCollection();
+
+
+        $response = [];
+
+        $this->errorCollection->setError(new Error('Не заполнено обязательное поле 1'));
+        $this->errorCollection->setError(new Error('ОНе заполнено обязательное поле 2'));
+
+        // Если ошибок нет выполняем какое-то действие
+        if(!$this->errorCollection->hasErrors()) {
+
+        }
+
+        return $response;
+    }
 
     public function executeComponent()
     {

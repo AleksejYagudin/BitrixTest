@@ -58,12 +58,21 @@ BX.Aclips.BaseGrid.List = {
         }).show()
     },
     removeUser: function (userId, callback) {
-
-        // Ajax запрос на удаление пользователя
-
-        if (callback && {}.toString.call(callback) === '[object Function]') {
-            callback()
-        }
+        BX.ajax.runComponentAction('aclips:base.grid', 'delete', {
+            mode: 'class',
+            data: {
+                userId: userId,
+            }
+        }).then(response => {
+            // Выполняется при успешном ответе
+            if (callback && {}.toString.call(callback) === '[object Function]') {
+                callback()
+            }
+        }, reject => {
+            // Выполняется при не успешном ответе
+            let errorMessages = reject.errors.map(e => e.message).join('\n')
+            alert(errorMessages)
+        })
     },
     reloadGrid() {
         let grid = BX.Main.gridManager.getById(this.gridId);
