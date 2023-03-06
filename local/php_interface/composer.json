@@ -2,7 +2,8 @@
     "name": "nautilus/bitrix",
     "type": "project",
     "require": {
-        "enoffspb/bitrix-entity-manager": "dev-main"
+        "enoffspb/bitrix-entity-manager": "dev-main",
+        "phpoffice/phpspreadsheet": "^1.28"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
