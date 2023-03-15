@@ -60,10 +60,23 @@ $addButton = new \Bitrix\UI\Buttons\AddButton([
     'AJAX_OPTION_HISTORY' => 'N',
     "ENABLE_COLLAPSIBLE_ROWS" => true
 ], $component); ?>
+
+<?php if (!empty($arParams['AJAX_LOADER'])) { ?>
+    <script>
+        BX.addCustomEvent('Grid::beforeRequest', function (gridData, argse) {
+            if (argse.gridId != '<?=$arResult['GRID_ID'];?>') {
+                return;
+            }
+
+            argse.method = 'POST'
+            argse.data = <?= \Bitrix\Main\Web\Json::encode($arParams['AJAX_LOADER']['data']) ?>
+        });
+    </script>
+<?php } ?>
 <script>
     BX.ready(function() {
         let componentParams = {
-            gridId: 'BASE_GRID',
+            gridId: '<?=$arResult['GRID_ID'];?>',
             pathTemplates: {
                 userProfile: '/company/personal/user/#ID#/'
             }

@@ -8,3 +8,9 @@ $eventManager->addEventHandler(
         "loadCustomExtension"
     ]
 );
+
+$eventManager->addEventHandler('crm', 'onEntityDetailsTabsInitialized', [
+        'Aclips\\CustomCrm\\Handler',
+        'setCustomTabs'
+    ]
+);
